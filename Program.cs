@@ -1,4 +1,5 @@
 using AddressBook.Data;
+using AddressBook.Helpers;
 using AddressBook.Services;
 using AddressBook.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,9 @@ builder.Services.AddScoped<IImageService, BasicImageService>();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
+
+var scope = app.Services.CreateScope();
+await DataHelper.ManageDataAsync(scope.ServiceProvider);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
